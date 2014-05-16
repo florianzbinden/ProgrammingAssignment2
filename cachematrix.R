@@ -1,9 +1,13 @@
-## Put comments here that give an overall description of what your
-## functions do
+##  overall description of what the functions do
 
-## Write a short comment describing this function
+# blabla
 
+## short comment describing this function
 
+# set the matrix
+# get the matrix
+# set the value of the inverse of the matrix
+# get the value of the inverse of the matrix
 
 
 makeCacheMatrix <- function(x = numeric()) {
@@ -22,7 +26,9 @@ makeCacheMatrix <- function(x = numeric()) {
 
 
 
-## Write a short comment describing this function
+##  short comment describing this function
+
+# get the value of the inverse of the matrix
 
 
 cacheSolve <- function(x, ...) {
@@ -39,13 +45,10 @@ cacheSolve <- function(x, ...) {
 
 
 
-
+# test
 ss <- makeCacheMatrix()           # initialize
 ss2 <- matrix(c(2,2,3,2), 2, 2)
 ss <- makeCacheMatrix(ss2)
 ss$get                            # get the vector (pas oblig.)
 cacheSolve(ss)                    # calculate the mean
 cacheSolve(ss)                    # when is called back use the cached mean  
-
-
-
