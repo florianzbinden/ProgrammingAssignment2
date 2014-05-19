@@ -1,51 +1,44 @@
 ##  overall description of what the functions do
 
-# blabla
-
-## short comment describing this function
-
-# set the matrix
-# get the matrix
-# set the value of the inverse of the matrix
-# get the value of the inverse of the matrix
 
 
-makeCacheMatrix <- function(x = numeric()) {
-  m <- NULL
-  set <- function(y) {
-    x <<- y
-    m <<- NULL
+## the makeCacheMatrix function calculates the inverse of a matrix and caches its value
+
+
+makeCacheMatrix <- function(x = numeric()) {     # argument is an empty numeric matrix (stored in function's environment). This function intiates a "child" environment (while the current R session is the "parent's" environment).
+  m <- NULL                                      # internal variable m is initiated and set to NULL
+  set <- function(y) {                           # function with y as an argument
+    x <<- y                                      # assigns the matrix into x (into parent's environment where the fonction is called)
+    m <<- NULL                                   # clears the cache (into parent's environment where the fonction is called)
   }
-  get <- function() x
-  setsolve <- function(solve) m <<- solve
-  getsolve <- function() m
-  list(set = set, get = get,
+  get <- function() x                            # subfonction : grab matrix stored in x (argument of fonction MakeCacheMatrix) and returns it
+  setsolve <- function(solve) m <<- solve        # takes the inverse (of the matrix) and stores it into m (cache)
+  getsolve <- function() m                       # subfunction that returns the cache when requested
+  list(set = set, get = get,                     # returns the functions in a list (for later call by cacheSolve)
        setsolve = setsolve,
-       getsolve = getsolve)
+       getsolve = getsolve)                      
 }
 
 
-
-##  short comment describing this function
-
-# get the value of the inverse of the matrix
-
+## this function gets the value of the inverse of the matrix and if the second matrix submitted has not changed then it returns the value from the cache
 
 cacheSolve <- function(x, ...) {
   m <- x$getsolve()
-  if(!is.null(m)) {
-    message("getting cached data")
-    return(m)
+  if(!is.null(m)) {                              # if the value of m is not NULL, then it contains a value; therefore it returns the previous value of inverse as this signifies that the matrix is the same like before
+    message("getting cached data")               # it returns a message indicating that the value is stored and will be get
+    return(m)                                    # and returns the value of the inverse
   }
-  data <- x$get()
-  m <- solve(data, ...)
-  x$setsolve(m)
-  m
+  data <- x$get()                                # if the value of m is NULL, then it does not contain a value; 
+  m <- solve(data, ...)                          # therefore it calculates the inverse of the matrix,
+  x$setsolve(m)                                  # stores it for further comparison (through running of the functions)
+  m                                              # and returns it 
 }
 
 
 
-# test
+
+
+# for testing the code, use the following commands in the console
 ss <- makeCacheMatrix()           # initialize
 ss2 <- matrix(c(2,2,3,2), 2, 2)
 ss <- makeCacheMatrix(ss2)
